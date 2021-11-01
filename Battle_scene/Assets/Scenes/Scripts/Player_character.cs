@@ -200,14 +200,14 @@ public class Player_character : MonoBehaviour
         {
             transform.Translate(Vector3.left * speed * Time.deltaTime);
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        /*if (Input.GetKey(KeyCode.UpArrow))
         {
             transform.Translate(Vector3.up * speed * Time.deltaTime);
         }
         if (Input.GetKey(KeyCode.DownArrow))
         {
             transform.Translate(Vector3.down * speed * Time.deltaTime);
-        }
+        }*/
     }
     // Start is called before the first frame update
     void Start()
