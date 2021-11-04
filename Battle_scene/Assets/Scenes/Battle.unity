@@ -2189,7 +2189,7 @@ MonoBehaviour:
   defense: 10
   accuracy: 90
   avoid: 10
-  critical: 10
+  critical: 5
   speed: 5
   isRun: 0
   isAttack: 0

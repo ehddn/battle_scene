@@ -36,6 +36,7 @@ public class Player_character : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         enemy = GameObject.FindWithTag("Enemy").GetComponent<Enemy_character>();
+        isAttack = true;
     }
 
 
