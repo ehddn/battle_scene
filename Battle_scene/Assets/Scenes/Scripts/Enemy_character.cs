@@ -21,6 +21,7 @@ public class Enemy_character : MonoBehaviour
     private bool isRun;
     public bool isAttack;
     public bool isCritical;
+    public bool canMove;
 
 
     Rigidbody2D rigid;
@@ -31,13 +32,18 @@ public class Enemy_character : MonoBehaviour
     void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        canMove = true;
         player = GameObject.FindWithTag("Player").GetComponent<Player_character>();
     }
 
 
     void Enemy_Move()
     {
-        transform.Translate(Vector3.left * speed * Time.deltaTime);
+        if (canMove == true)
+        {
+            transform.Translate(Vector3.left * speed * Time.deltaTime);
+        }
+        
     }
 
     void Dead()
@@ -59,23 +65,29 @@ public class Enemy_character : MonoBehaviour
         //damage_enemy_text.gameObject.SetActive(false);
 
     }
-
+    IEnumerator StopMove()
+    {
+        canMove = false;
+        yield return new WaitForSeconds(0.8f);
+        //Debug.Log(1);
+        canMove = true;
+    }
     //넉백 수정필요
     void Nulkback()
     {
         rigid.AddForce(new Vector2(player.speed * 50, player.speed * 50));
-
+        StartCoroutine("StopMove");
     }
     void GetDamage()
     {
         if (player.isAttack == true)
         {
-            //한번 부딪히고 다음에 멈추는 버그 있음 
+            //크리티컬 데미지
             if (player.isCritical == true)
             {
                 if ((player.AtkDamage - defense) <= 0)
                 {
-                    Hp = Hp;
+                    //Hp = Hp;
                     HPbar.fillAmount = (float)Hp / 100;
                     
                     StartCoroutine("destroy_text");
@@ -88,11 +100,12 @@ public class Enemy_character : MonoBehaviour
                 }
 
             }
+            //크리티컬 데미지X
             else
             {
                 if ((player.AtkDamage - defense) <= 0)
                 {
-                    Hp = Hp;
+                    //Hp = Hp;
                     HPbar.fillAmount = (float)Hp / 100;
                     StartCoroutine("destroy_text");
                 }

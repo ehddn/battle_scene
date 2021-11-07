@@ -22,6 +22,7 @@ public class Player_character : MonoBehaviour
     public bool isRun;
     public bool isAttack;
     public bool isCritical;
+    public bool canMove;
 
     public int exp;
     
@@ -36,6 +37,8 @@ public class Player_character : MonoBehaviour
     {
         rigid = GetComponent<Rigidbody2D>();
         enemy = GameObject.FindWithTag("Enemy").GetComponent<Enemy_character>();
+        AtkDamage = power;
+        canMove = true;
         isAttack = true;
     }
 
@@ -110,7 +113,7 @@ public class Player_character : MonoBehaviour
             {
                 if((enemy.AtkDamage - defense) <= 0)
                 {
-                    Hp = Hp;
+                    //Hp = Hp;
                     HPbar.fillAmount = (float)Hp / 100;
                     /*rigid.AddForce(new Vector2(0,enemy.speed * 20));*/
                     StartCoroutine("destroy_text");
@@ -127,7 +130,7 @@ public class Player_character : MonoBehaviour
             {
                 if ((enemy.AtkDamage - defense) <= 0)
                 {
-                    Hp = Hp;
+                    //Hp = Hp;
                     HPbar.fillAmount = (float)Hp / 100;
                     StartCoroutine("destroy_text");
                 }
@@ -143,14 +146,23 @@ public class Player_character : MonoBehaviour
 
     }
 
-    void playerAvoid()
+    void PlayerAvoid()
     {
 
     }
 
+    IEnumerator StopMove()
+    {
+        canMove = false;
+        yield return new WaitForSeconds(0.8f);
+        //Debug.Log(1);
+        canMove = true;
+    }
     void Nulkback()
     {
         rigid.AddForce(new Vector2(-enemy.speed * 20, enemy.speed * 50));
+
+        StartCoroutine("StopMove");
 
     }
     void OnCollisionEnter2D(Collision2D other)
@@ -184,31 +196,36 @@ public class Player_character : MonoBehaviour
     //캐릭터 움직임
     void Move()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (canMove == true)
         {
-            transform.Translate(Vector3.right * speed * Time.deltaTime);
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                transform.Translate(Vector3.right * speed * Time.deltaTime);
+            }
+
+            /*//오른쪽 키 때면 공격 멈춤. 근데 이러면 맞고만 있는건가? 잘 모르겠음
+            if (Input.GetKeyUp(KeyCode.RightArrow))
+            {
+                isAttacking = false;
+                transform.position = new Vector3(-5, -0.4f, 0);
+            }*/
+
+            //왼쪽 키 누르면 도망감
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                transform.Translate(Vector3.left * speed * Time.deltaTime);
+            }
+            /*if (Input.GetKey(KeyCode.UpArrow))
+            {
+                transform.Translate(Vector3.up * speed * Time.deltaTime);
+            }
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                transform.Translate(Vector3.down * speed * Time.deltaTime);
+            }*/
         }
 
-        /*//오른쪽 키 때면 공격 멈춤. 근데 이러면 맞고만 있는건가? 잘 모르겠음
-        if (Input.GetKeyUp(KeyCode.RightArrow))
-        {
-            isAttacking = false;
-            transform.position = new Vector3(-5, -0.4f, 0);
-        }*/
 
-        //왼쪽 키 누르면 도망감
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            transform.Translate(Vector3.left * speed * Time.deltaTime);
-        }
-        /*if (Input.GetKey(KeyCode.UpArrow))
-        {
-            transform.Translate(Vector3.up * speed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.DownArrow))
-        {
-            transform.Translate(Vector3.down * speed * Time.deltaTime);
-        }*/
     }
     // Start is called before the first frame update
     void Start()

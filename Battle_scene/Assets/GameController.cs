@@ -13,15 +13,21 @@ public class GameController : MonoBehaviour
 
     Player player;
 
+    
     void SetPlayerPos()
     {
         player.transform.position = playerpos;
     }
 
+    void GetPlayerPos()
+    {
+        playerpos = player.transform.position;
+    }
+
     private void Awake()
     {
-        /*player = GameObject.FindWithTag("Player").GetComponent<Player>();
-        playerpos = new Vector2(player.transform.position.x, player.transform.position.y);*/
+        player = GameObject.FindWithTag("Player").GetComponent<Player>();
+        //playerpos = new Vector2(player.transform.position.x, player.transform.position.y);*/
         if (Instance != null)
         {
             Destroy(gameObject);
@@ -43,8 +49,8 @@ public class GameController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        playerHp++;
-        //playerpos = new Vector2(player.transform.position.x, player.transform.position.y);
+
+        GetPlayerPos();
 
     }
     
