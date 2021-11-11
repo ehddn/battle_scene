@@ -45,7 +45,7 @@ public class Player_damage_text : MonoBehaviour
             if (enemy != null)
             {
                 StartCoroutine("destroy_text");
-                Debug.Log("ÀüÅõÁß");
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
             }
             //damage_player_text.text += "-"+enemy.enemy_power.ToString()+"\n";
 
